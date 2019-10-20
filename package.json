@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "author": "FrdHlr",
+  "author": "Frd Hlr",
   "license": "MIT",
   "dependencies": {
     "@tensorflow/tfjs-node": "^1.2.8",

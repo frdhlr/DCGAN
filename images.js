@@ -9,6 +9,14 @@ function createImageName(paddedImageNumber) {
     return `./Data/Bayeux_${paddedImageNumber}.jpg`;
 }
 
+function addNoiseToTensor(initialTensor) {
+    const noisedTensor = tf.tidy(() => {
+        return initialTensor.add(tf.randomNormal(initialTensor.shape, 0, 0.1));
+    });
+
+    return noisedTensor;
+}
+
 function normalizeTensor(nonNormalizedTensor) {
     const normalizedBatchTensor = tf.tidy(() => {
         return nonNormalizedTensor.add(-127.5).div(127.5);
@@ -63,6 +71,7 @@ function generateImageArrayFromBatchTensor(normalizedbatchTensor) {
 }
 
 module.exports = {
+    addNoiseToTensor,
     loadBatchTensor,
     generateImageArrayFromBatchTensor
 }
