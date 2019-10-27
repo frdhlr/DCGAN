@@ -60,9 +60,14 @@ async function trainModels(generator, discriminator, adversarial, nbEpochs, nbIm
 }
 
 function generateImage(generator, generatingBatchSize, inputDim) {
-    const batchTensor = generator.predict(tf.randomNormal([generatingBatchSize, inputDim], 0, 1));
+    const imageArray = tf.tidy(() => {
+        const input = tf.randomNormal([generatingBatchSize, inputDim], 0, 1);
+        const batchTensor = generator.predict(input);
 
-    return im.generateImageArrayFromBatchTensor(batchTensor);
+        return im.generateImageArrayFromBatchTensor(batchTensor);
+    });
+
+    return imageArray;
 }
 
 function getPendingEpoch(handlingPath) {
