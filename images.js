@@ -17,6 +17,14 @@ function addNoiseToTensor(initialTensor) {
     return noisedTensor;
 }
 
+function constrainTensor(initialTensor) {
+    const constrainedTensor = tf.tidy(() => {
+        return initialTensor.maximum(tf.scalar(-1.0)).minimum(tf.scalar(1.0));
+    });
+
+    return constrainedTensor;
+}
+
 function normalizeTensor(nonNormalizedTensor) {
     const normalizedBatchTensor = tf.tidy(() => {
         return nonNormalizedTensor.add(-127.5).div(127.5);
@@ -72,6 +80,7 @@ function generateImageArrayFromBatchTensor(normalizedbatchTensor) {
 
 module.exports = {
     addNoiseToTensor,
+    constrainTensor,
     loadBatchTensor,
     generateImageArrayFromBatchTensor
 }

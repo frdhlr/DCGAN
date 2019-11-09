@@ -5,7 +5,8 @@ const im = require('./images');
 
 function getDiscriminatorTrueTrainSet(nbImages, trainingBatchSize) {
     const discriminatorTrueTrainSet = tf.tidy(() => {
-        const XTrue = im.addNoiseToTensor(im.loadBatchTensor(nbImages, trainingBatchSize));
+        const initialX = im.loadBatchTensor(nbImages, trainingBatchSize);
+        const XTrue = im.constrainTensor(im.addNoiseToTensor(initialX));
         const yTrue = tf.randomUniform([trainingBatchSize, 1], 0.0, 0.2);
 
         return {X: XTrue, y: yTrue};
@@ -16,7 +17,8 @@ function getDiscriminatorTrueTrainSet(nbImages, trainingBatchSize) {
 
 function getDiscriminatorFalseTrainSet(generator, trainingBatchSize, inputDim) {
     const discriminatorFalseTrainSet = tf.tidy(() => {
-        const XFalse = im.addNoiseToTensor(generator.predict(tf.randomNormal([trainingBatchSize, inputDim], 0, 1)));
+        const initialX = generator.predict(tf.randomNormal([trainingBatchSize, inputDim], 0, 1));
+        const XFalse = im.constrainTensor(im.addNoiseToTensor(initialX));
         const yFalse = tf.randomUniform([trainingBatchSize, 1], 0.8, 1.0);
 
         return {X: XFalse, y: yFalse};
