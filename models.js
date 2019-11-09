@@ -67,7 +67,6 @@ function createDiscriminator(imageRows, imageCols, imageChannels) {
                                         strides: 2,
                                         padding: 'same',
                                         kernelInitialize: initializer}));
-    discriminator.add(tf.layers.zeroPadding2d({padding: [[0, 1], [0,1]]}));
     discriminator.add(tf.layers.batchNormalization({momentum: 0.8,
                                                     kernelInitialize: initializer}));
     discriminator.add(tf.layers.leakyReLU({alpha: 0.2}));
@@ -78,6 +77,7 @@ function createDiscriminator(imageRows, imageCols, imageChannels) {
                                         strides: 2,
                                         padding: 'same',
                                         kernelInitialize: initializer}));
+    discriminator.add(tf.layers.zeroPadding2d({padding: [[0, 1], [0, 0]]}));
     discriminator.add(tf.layers.batchNormalization({momentum: 0.8,
                                                     kernelInitialize: initializer}));
     discriminator.add(tf.layers.leakyReLU({alpha: 0.2}));
